@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.udacitytrollus.justjava"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Quantity"
+        android:textAllCaps="true" />
+
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:onClick="increment"
+        android:text="+"
+        android:textAllCaps="true" />
+    <TextView
+        android:id="@+id/quantity_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="-"
+        android:textAllCaps="true"
+        android:onClick="decrement" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Price"
+        android:layout_marginTop="16dp"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/price_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Order"
+        android:textAllCaps="true"
+        android:onClick="submitOrder" />
+    <TextView
+        android:id="@+id/order_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:background="#68EFAD"
+        android:textStyle="bold|italic"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"/>
+
+</LinearLayout>
+
+
+
+###########JAVA CODE##################
+
+
+package com.example.android.justjava;
+
+
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
+import android.widget.TextView;
+
+import java.text.NumberFormat;
+
+/**
+ * This app displays an order form to order coffee.
+ */
+public class MainActivity extends AppCompatActivity {
+
+    int numberOfCoffees = 0;
+    int order = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    /**
+     * This method is called when the order button is clicked.
+     */
+
+    public void submitOrder(View view) {
+        String s = "Your order of ";
+        String s2 = " Coffee is placed successfully...And you have to pay :- $";
+        /*display(numberOfCoffees);
+        displayPrice(numberOfCoffees * 5); */
+        order = numberOfCoffees;
+        displayOrder(s,s2,order,(order*5));
+        numberOfCoffees = 0;
+        display(numberOfCoffees);
+        displayPrice(numberOfCoffees * 5);
+    }
+
+    /**
+     * This method is called when the plus button is clicked.
+     */
+    public void increment(View view) {
+
+
+        numberOfCoffees = numberOfCoffees + 1;
+        display(numberOfCoffees);
+        displayPrice(numberOfCoffees * 5);
+    }
+
+    /**
+     * This method is called when the minus button is clicked.
+     */
+    public void decrement(View view) {
+
+        numberOfCoffees = numberOfCoffees - 1;
+        if(numberOfCoffees < 0 )
+        {
+            numberOfCoffees = 0;
+            display(numberOfCoffees);
+            displayPrice(numberOfCoffees * 5);
+        }
+
+        else
+        {
+            display(numberOfCoffees);
+            displayPrice(numberOfCoffees * 5);
+        }
+
+    }
+
+    /**
+     * This method displays the given quantity value on the screen.
+     */
+    private void display(int number) {
+        TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
+        quantityTextView.setText("" + number);
+    }
+
+    /**
+     * This method displays the given price on the screen.
+     */
+    private void displayPrice(int number) {
+        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
+    }
+
+    private void displayOrder( String st ,String st2, int number , int pr){
+        TextView orderTextView = (TextView) findViewById(R.id.order_text_view);
+        orderTextView.setText("" + st + number + st2 + pr);
+    }
+}
